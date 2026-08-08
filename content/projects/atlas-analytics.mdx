@@ -1,0 +1,37 @@
+{/* [PLACEHOLDER case study] Edit freely — this is a standard MDX file.
+    The title, tech stack, hero image and links come from lib/site-config.js. */}
+
+## Problem
+
+Most website analytics tools trade the visitor's privacy for depth: cookies,
+fingerprinting, and dashboards so dense that the one number you actually care
+about is buried. Atlas set out to answer a simpler question — _"is my site
+growing, and what are people reading?"_ — without tracking anyone.
+
+Requirements:
+
+- **No cookies, no personal data.** GDPR-friendly by default.
+- A dashboard a non-technical founder could read in ten seconds.
+- A tracking script small enough to never affect page performance.
+
+## Approach
+
+Atlas uses a **1KB** script that sends anonymous, aggregated page events to an
+edge endpoint, stored in ClickHouse for fast time-series queries.
+
+- **Cookieless model** — visits are counted with privacy-preserving hashes that
+  reset daily, so no individual can be tracked across days.
+- **Edge ingestion** — events hit a globally distributed edge function, keeping
+  latency low everywhere.
+- **Readable dashboard** — a handful of clear charts (visitors, top pages,
+  referrers) built with Recharts, with sensible defaults over configuration.
+
+## Result
+
+- The tracking script stays under **1KB gzipped** with zero measurable impact
+  on Core Web Vitals.
+- Queries over millions of events return in **under 200ms**.
+- Site owners get the metrics that matter — without a cookie banner.
+
+> _This is placeholder content. Replace it with your real project story:
+> what the problem was, how you approached it, and the measurable outcome._

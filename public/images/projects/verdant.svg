@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" role="img" aria-label="Verdant thumbnail placeholder">
+  <defs>
+    <linearGradient id="vd" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#166534"/>
+      <stop offset="1" stop-color="#15803d"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#vd)"/>
+  <g opacity="0.92">
+    <rect x="150" y="180" width="260" height="330" rx="18" fill="#ffffff" opacity="0.16"/>
+    <rect x="470" y="180" width="260" height="330" rx="18" fill="#ffffff" opacity="0.16"/>
+    <rect x="790" y="180" width="260" height="330" rx="18" fill="#ffffff" opacity="0.16"/>
+    <rect x="150" y="180" width="260" height="200" rx="18" fill="#ffffff" opacity="0.28"/>
+    <rect x="470" y="180" width="260" height="200" rx="18" fill="#ffffff" opacity="0.28"/>
+    <rect x="790" y="180" width="260" height="200" rx="18" fill="#34d399" opacity="0.7"/>
+    <rect x="180" y="430" width="150" height="26" rx="6" fill="#ffffff" opacity="0.6"/>
+    <rect x="500" y="430" width="150" height="26" rx="6" fill="#ffffff" opacity="0.6"/>
+    <rect x="820" y="430" width="150" height="26" rx="6" fill="#ffffff" opacity="0.6"/>
+  </g>
+  <text x="150" y="120" font-family="system-ui, sans-serif" font-size="46" font-weight="700" fill="#ffffff">Verdant Store</text>
+</svg>

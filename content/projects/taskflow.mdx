@@ -1,0 +1,42 @@
+{/* [PLACEHOLDER case study] Edit freely — this is a standard MDX file.
+    The title, tech stack, hero image and links come from lib/site-config.js. */}
+
+## Problem
+
+Small teams that outgrow a shared spreadsheet hit the same wall: no real-time
+updates, no clear ownership, and no history of what changed. TaskFlow set out
+to give teams of 3–15 people a fast, focused task manager — without the sprawl
+of enterprise project tools.
+
+The core constraints were tight:
+
+- Updates had to feel **instant** across everyone's screen.
+- It needed to work well on a phone during standups.
+- Onboarding a new teammate had to take under a minute.
+
+## Approach
+
+I built TaskFlow on Next.js with a PostgreSQL backend, using WebSockets for
+real-time board updates and optimistic UI so actions feel immediate.
+
+- **Boards & drag-and-drop** — a keyboard-accessible board with columns and
+  reorderable cards.
+- **Presence** — lightweight avatars show who's viewing a board in real time.
+- **Optimistic updates** — the UI reflects changes instantly and reconciles
+  with the server, rolling back cleanly on failure.
+- **Access model** — invite links with role-based permissions kept onboarding
+  to a single click.
+
+I paid particular attention to the data layer, batching mutations and
+debouncing reorder events so a busy board never floods the socket.
+
+## Result
+
+TaskFlow shipped as a focused, fast alternative to spreadsheets:
+
+- Board interactions render in **under 50ms** thanks to optimistic updates.
+- Real-time sync keeps every client consistent without manual refreshes.
+- A Lighthouse performance score of **98** on mobile.
+
+> _This is placeholder content. Replace it with your real project story:
+> what the problem was, how you approached it, and the measurable outcome._

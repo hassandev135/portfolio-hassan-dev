@@ -1,0 +1,38 @@
+{/* [PLACEHOLDER case study] Edit freely — this is a standard MDX file.
+    The title, tech stack, hero image and links come from lib/site-config.js. */}
+
+## Problem
+
+A boutique retailer was losing customers to a slow, template-based store.
+Pages took seconds to load, search was unreliable, and the checkout felt
+clunky on mobile. They needed a storefront that was fast, searchable, and a
+pleasure to use — without migrating away from their existing catalog.
+
+Goals:
+
+- Sub-second navigation between products.
+- **Instant** search that tolerates typos.
+- A checkout that never loses the cart.
+
+## Approach
+
+Verdant is a headless storefront built on Next.js, pulling catalog data through
+a thin API layer and handling payments with Stripe.
+
+- **Instant search** — Algolia powers typo-tolerant, as-you-type results with
+  faceted filtering.
+- **Optimistic cart** — add-to-cart updates render immediately and sync in the
+  background, persisted so a refresh never empties the basket.
+- **Performance budget** — images are optimized and lazy-loaded, and the
+  critical path is kept lean to protect the Lighthouse score.
+- **Accessible checkout** — a single, keyboard-friendly flow with clear
+  validation and error states.
+
+## Result
+
+- A **100 Lighthouse performance** score on product pages.
+- Search results appear in **under 100ms** as the shopper types.
+- Cart abandonment dropped after the checkout redesign.
+
+> _This is placeholder content. Replace it with your real project story:
+> what the problem was, how you approached it, and the measurable outcome._

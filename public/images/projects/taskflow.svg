@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" role="img" aria-label="TaskFlow thumbnail placeholder">
+  <defs>
+    <linearGradient id="tf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#065f46"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#tf)"/>
+  <g opacity="0.9">
+    <rect x="120" y="150" width="280" height="450" rx="16" fill="#ffffff" opacity="0.14"/>
+    <rect x="460" y="150" width="280" height="450" rx="16" fill="#ffffff" opacity="0.14"/>
+    <rect x="800" y="150" width="280" height="450" rx="16" fill="#ffffff" opacity="0.14"/>
+    <rect x="150" y="190" width="220" height="70" rx="10" fill="#ffffff" opacity="0.5"/>
+    <rect x="150" y="280" width="220" height="70" rx="10" fill="#ffffff" opacity="0.3"/>
+    <rect x="490" y="190" width="220" height="70" rx="10" fill="#ffffff" opacity="0.4"/>
+    <rect x="830" y="190" width="220" height="70" rx="10" fill="#34d399" opacity="0.8"/>
+  </g>
+  <text x="120" y="100" font-family="system-ui, sans-serif" font-size="46" font-weight="700" fill="#ffffff">TaskFlow</text>
+</svg>

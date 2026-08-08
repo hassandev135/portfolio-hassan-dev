@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" role="img" aria-label="Atlas thumbnail placeholder">
+  <defs>
+    <linearGradient id="at" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#064e3b"/>
+      <stop offset="1" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#at)"/>
+  <polyline points="120,560 280,470 440,520 600,360 760,410 920,250 1080,300"
+    fill="none" stroke="#34d399" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#ffffff" opacity="0.85">
+    <circle cx="280" cy="470" r="12"/><circle cx="600" cy="360" r="12"/>
+    <circle cx="920" cy="250" r="12"/>
+  </g>
+  <g opacity="0.18" fill="#ffffff">
+    <rect x="120" y="600" width="120" height="60" rx="8"/>
+    <rect x="280" y="580" width="120" height="80" rx="8"/>
+    <rect x="440" y="560" width="120" height="100" rx="8"/>
+  </g>
+  <text x="120" y="100" font-family="system-ui, sans-serif" font-size="46" font-weight="700" fill="#ffffff">Atlas Analytics</text>
+</svg>
