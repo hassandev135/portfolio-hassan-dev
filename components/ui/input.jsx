@@ -1,6 +1,10 @@
 import { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 
+/**
+ * Underline-style field: no box, just a baseline rule that lights up on
+ * focus. Reads as editorial stationery rather than a web form.
+ */
 const Input = forwardRef(function Input(
   { className, type = "text", ...props },
   ref,
@@ -10,7 +14,11 @@ const Input = forwardRef(function Input(
       type={type}
       ref={ref}
       className={cn(
-        "flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:border-accent focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-red-500",
+        "peer h-11 w-full border-0 border-b border-input bg-transparent px-0 py-2 text-base text-foreground transition-colors outline-none",
+        "placeholder:text-muted-foreground/60",
+        "focus-visible:border-accent focus-visible:outline-none",
+        "disabled:cursor-not-allowed disabled:opacity-50",
+        "aria-invalid:border-hue-2",
         className,
       )}
       {...props}

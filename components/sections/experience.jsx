@@ -4,43 +4,46 @@ import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 
 export function Experience() {
   return (
-    <Section id="experience">
+    <Section id="experience" className="border-t border-border bg-muted/30">
       <SectionHeading
+        index="04"
         eyebrow="Experience"
         title="Where I've worked"
         description="A short history of the teams I've built with and the problems I've helped solve."
       />
 
-      <RevealGroup className="relative">
-        {/* Vertical line */}
-        <div
-          aria-hidden="true"
-          className="absolute left-[7px] top-2 bottom-2 w-px bg-border sm:left-[9px]"
-        />
+      <RevealGroup as="ol" className="border-t border-border">
+        {experience.map((job) => (
+          <RevealItem
+            as="li"
+            key={`${job.company}-${job.start}`}
+            className="group relative border-b border-border"
+          >
+            {/* Accent rule that grows in on hover. */}
+            <span
+              aria-hidden="true"
+              className="absolute left-0 top-0 h-px w-0 bg-accent transition-[width] duration-500 ease-out group-hover:w-full"
+            />
 
-        <ol className="space-y-10">
-          {experience.map((job) => (
-            <RevealItem key={`${job.company}-${job.start}`}>
-              <li className="relative pl-8 sm:pl-12">
-                {/* Node */}
-                <span
-                  aria-hidden="true"
-                  className="absolute left-0 top-1.5 h-[15px] w-[15px] rounded-full border-2 border-accent bg-background sm:h-[19px] sm:w-[19px]"
-                />
-                <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-                  <h3 className="text-lg font-semibold tracking-tight">
-                    {job.role}
-                    <span className="text-accent"> · {job.company}</span>
-                  </h3>
-                  <p className="shrink-0 text-sm font-medium text-muted-foreground">
-                    {job.start} — {job.end}
-                  </p>
-                </div>
-                <p className="mt-2 text-muted-foreground">{job.description}</p>
-              </li>
-            </RevealItem>
-          ))}
-        </ol>
+            <div className="grid gap-4 py-9 md:grid-cols-[180px_minmax(0,1fr)] md:gap-10">
+              <p className="font-mono text-xs uppercase tracking-[0.14em] tabular-nums text-muted-foreground md:pt-2">
+                {job.start} — {job.end}
+              </p>
+
+              <div>
+                <h3 className="text-2xl font-semibold leading-tight tracking-tight sm:text-3xl">
+                  {job.role}
+                </h3>
+                <p className="mt-1.5 text-base font-medium text-accent">
+                  {job.company}
+                </p>
+                <p className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">
+                  {job.description}
+                </p>
+              </div>
+            </div>
+          </RevealItem>
+        ))}
       </RevealGroup>
     </Section>
   );

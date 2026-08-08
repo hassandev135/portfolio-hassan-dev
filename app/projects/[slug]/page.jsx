@@ -42,25 +42,28 @@ export default async function ProjectPage({ params }) {
   );
 
   return (
-    <article className="mx-auto w-full max-w-3xl px-6 pb-24 pt-28">
+    <article className="mx-auto w-full max-w-3xl px-6 pb-28 pt-36">
       <Reveal>
         <Link
           href="/#projects"
-          className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-accent"
+          className="group inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-accent"
         >
-          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+          <ArrowLeft
+            className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5"
+            aria-hidden="true"
+          />
           Back to projects
         </Link>
 
-        <h1 className="mt-6 text-3xl font-bold tracking-tight sm:text-4xl">
+        <h1 className="mt-8 text-4xl font-bold leading-[1.05] tracking-tight text-balance sm:text-5xl">
           {project.title}
         </h1>
-        <p className="mt-3 text-lg text-muted-foreground">
+        <p className="mt-5 text-lg leading-relaxed text-pretty text-muted-foreground">
           {project.description}
         </p>
 
         {/* Tech stack */}
-        <ul className="mt-5 flex flex-wrap gap-2">
+        <ul className="mt-7 flex flex-wrap gap-2">
           {project.tech.map((t) => (
             <li key={t}>
               <Badge variant="accent">{t}</Badge>
@@ -69,7 +72,7 @@ export default async function ProjectPage({ params }) {
         </ul>
 
         {/* External links */}
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-wrap gap-3">
           {project.liveUrl ? (
             <a
               href={project.liveUrl}
@@ -97,7 +100,7 @@ export default async function ProjectPage({ params }) {
 
       {/* Hero image */}
       <Reveal delay={0.1} className="mt-10">
-        <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-border bg-muted">
+        <div className="relative aspect-video overflow-hidden rounded-xl border border-border bg-muted">
           <Image
             src={project.thumbnail}
             alt={`${project.title} hero image`}
@@ -112,7 +115,7 @@ export default async function ProjectPage({ params }) {
       {/* MDX case study: Problem → Approach → Result */}
       <Reveal
         delay={0.15}
-        className="prose prose-zinc mt-12 max-w-none dark:prose-invert prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-accent prose-a:no-underline hover:prose-a:underline"
+        className="prose prose-zinc mt-14 max-w-none dark:prose-invert prose-headings:font-display prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-accent"
       >
         <CaseStudy />
       </Reveal>

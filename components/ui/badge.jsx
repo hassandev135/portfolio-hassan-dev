@@ -2,14 +2,16 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition-colors",
+  "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium tracking-tight transition-colors",
   {
     variants: {
       variant: {
         default: "border-border bg-muted text-muted-foreground",
-        accent:
-          "border-transparent bg-accent-subtle text-accent dark:text-accent",
+        accent: "border-transparent bg-accent-subtle text-accent",
         outline: "border-border bg-transparent text-foreground",
+        /* Live status — the ping dot is supplied by the caller. */
+        status:
+          "border-hue-3/30 bg-hue-3/10 text-hue-3 dark:border-hue-3/25",
       },
     },
     defaultVariants: {

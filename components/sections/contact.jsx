@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, Mail, MapPin, Send, CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Loader2, MapPin, Send } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
 import { Section, SectionHeading } from "@/components/section";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { SocialLinks } from "@/components/social-links";
+import { Reveal } from "@/components/motion/reveal";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -22,6 +23,21 @@ function validate(values) {
   else if (values.message.trim().length < 10)
     errors.message = "Message should be at least 10 characters.";
   return errors;
+}
+
+/** Field wrapper: label, underline control, and its error message. */
+function Field({ id, label, error, children }) {
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id}>{label}</Label>
+      {children}
+      {error ? (
+        <p id={`${id}-error`} className="text-sm text-hue-2">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
 }
 
 export function Contact() {
@@ -56,133 +72,125 @@ export function Contact() {
   }
 
   return (
-    <Section id="contact" className="bg-muted/30">
+    <Section id="contact" className="border-t border-border">
       <SectionHeading
+        index="05"
         eyebrow="Contact"
-        title="Let's work together"
+        title={
+          <>
+            Let&apos;s work <span className="serif-accent">together</span>
+          </>
+        }
         description="Have a project in mind or just want to say hello? Send a message, or reach me directly."
       />
 
-      <div className="grid gap-12 md:grid-cols-2 md:gap-16">
-        {/* Form */}
-        <form onSubmit={onSubmit} noValidate className="space-y-5">
-          <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
-            <Input
-              id="name"
-              name="name"
-              autoComplete="name"
-              value={values.name}
-              onChange={update("name")}
-              aria-invalid={Boolean(errors.name)}
-              aria-describedby={errors.name ? "name-error" : undefined}
-              placeholder="Jane Doe"
-            />
-            {errors.name ? (
-              <p id="name-error" className="text-sm text-red-500">
-                {errors.name}
-              </p>
-            ) : null}
-          </div>
+      <div className="grid gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-24">
+        {/* ── Direct contact, set as the headline act ── */}
+        <Reveal>
+          {siteConfig.availability ? (
+            <p className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-border bg-card py-1.5 pl-2.5 pr-4 text-xs font-medium tracking-tight">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-hue-3 opacity-75 motion-reduce:animate-none" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-hue-3" />
+              </span>
+              {siteConfig.availability}
+            </p>
+          ) : null}
 
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              value={values.email}
-              onChange={update("email")}
-              aria-invalid={Boolean(errors.email)}
-              aria-describedby={errors.email ? "email-error" : undefined}
-              placeholder="jane@example.com"
-            />
-            {errors.email ? (
-              <p id="email-error" className="text-sm text-red-500">
-                {errors.email}
-              </p>
-            ) : null}
-          </div>
+          <a
+            href={`mailto:${siteConfig.email}`}
+            className="link-sweep inline-block font-display text-2xl font-semibold leading-tight tracking-tight break-all transition-colors hover:text-accent sm:text-3xl"
+          >
+            {siteConfig.email}
+          </a>
 
-          <div className="space-y-2">
-            <Label htmlFor="message">Message</Label>
-            <Textarea
-              id="message"
-              name="message"
-              value={values.message}
-              onChange={update("message")}
-              aria-invalid={Boolean(errors.message)}
-              aria-describedby={errors.message ? "message-error" : undefined}
-              placeholder="Tell me a little about your project…"
-            />
-            {errors.message ? (
-              <p id="message-error" className="text-sm text-red-500">
-                {errors.message}
-              </p>
-            ) : null}
-          </div>
+          {siteConfig.location ? (
+            <p className="mt-6 flex items-center gap-2.5 text-muted-foreground">
+              <MapPin className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+              {siteConfig.location}
+            </p>
+          ) : null}
 
-          <Button type="submit" disabled={status === "submitting"}>
-            {status === "submitting" ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                Sending…
-              </>
-            ) : (
-              <>
-                <Send className="h-4 w-4" aria-hidden="true" />
-                Send message
-              </>
-            )}
-          </Button>
-
-          {/* Status messages, announced to screen readers. */}
-          <div aria-live="polite">
-            {status === "success" ? (
-              <p className="flex items-center gap-2 text-sm text-accent">
-                <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
-                Thanks! Your message has been sent.
-              </p>
-            ) : null}
-            {status === "error" ? (
-              <p className="text-sm text-red-500">
-                Something went wrong. Please try again or email me directly.
-              </p>
-            ) : null}
-          </div>
-        </form>
-
-        {/* Direct alternatives */}
-        <div className="space-y-8">
-          <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-foreground">
-              Reach me directly
-            </h3>
-            <ul className="space-y-3 text-muted-foreground">
-              <li>
-                <a
-                  href={`mailto:${siteConfig.email}`}
-                  className="inline-flex items-center gap-3 transition-colors hover:text-accent"
-                >
-                  <Mail className="h-5 w-5 text-accent" aria-hidden="true" />
-                  {siteConfig.email}
-                </a>
-              </li>
-              <li className="inline-flex items-center gap-3">
-                <MapPin className="h-5 w-5 text-accent" aria-hidden="true" />
-                {siteConfig.location}
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="mb-3 text-sm font-semibold uppercase tracking-widest text-foreground">
+          <div className="mt-10 border-t border-border pt-8">
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
               Elsewhere
             </h3>
             <SocialLinks className="-ml-2.5" />
           </div>
-        </div>
+        </Reveal>
+
+        {/* ── Form ── */}
+        <Reveal delay={0.1}>
+          <form onSubmit={onSubmit} noValidate className="space-y-8">
+            <Field id="name" label="Name" error={errors.name}>
+              <Input
+                id="name"
+                name="name"
+                autoComplete="name"
+                value={values.name}
+                onChange={update("name")}
+                aria-invalid={Boolean(errors.name)}
+                aria-describedby={errors.name ? "name-error" : undefined}
+                placeholder="Jane Doe"
+              />
+            </Field>
+
+            <Field id="email" label="Email" error={errors.email}>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                value={values.email}
+                onChange={update("email")}
+                aria-invalid={Boolean(errors.email)}
+                aria-describedby={errors.email ? "email-error" : undefined}
+                placeholder="jane@example.com"
+              />
+            </Field>
+
+            <Field id="message" label="Message" error={errors.message}>
+              <Textarea
+                id="message"
+                name="message"
+                value={values.message}
+                onChange={update("message")}
+                aria-invalid={Boolean(errors.message)}
+                aria-describedby={errors.message ? "message-error" : undefined}
+                placeholder="Tell me a little about your project…"
+              />
+            </Field>
+
+            <Button type="submit" size="lg" disabled={status === "submitting"}>
+              {status === "submitting" ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                  Sending…
+                </>
+              ) : (
+                <>
+                  <Send className="h-4 w-4" aria-hidden="true" />
+                  Send message
+                </>
+              )}
+            </Button>
+
+            {/* Status messages, announced to screen readers. */}
+            <div aria-live="polite">
+              {status === "success" ? (
+                <p className="flex items-center gap-2 text-sm text-hue-3">
+                  <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
+                  Thanks! Your message has been sent.
+                </p>
+              ) : null}
+              {status === "error" ? (
+                <p className="text-sm text-hue-2">
+                  Something went wrong. Please try again or email me directly.
+                </p>
+              ) : null}
+            </div>
+          </form>
+        </Reveal>
       </div>
     </Section>
   );

@@ -6,7 +6,7 @@ const Label = forwardRef(function Label({ className, ...props }, ref) {
     <label
       ref={ref}
       className={cn(
-        "text-sm font-medium leading-none text-foreground",
+        "text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground",
         className,
       )}
       {...props}

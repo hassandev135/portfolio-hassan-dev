@@ -29,19 +29,22 @@ const links = [
 export function SocialLinks({ className }) {
   return (
     <ul className={cn("flex items-center gap-1", className)}>
-      {links.map(({ label, href, Icon }) => (
-        <li key={label}>
-          <a
-            href={href}
-            aria-label={label}
-            target={href.startsWith("mailto:") ? undefined : "_blank"}
-            rel={href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-          >
-            <Icon className="h-5 w-5" />
-          </a>
-        </li>
-      ))}
+      {links.map(({ label, href, Icon }) => {
+        const external = !href.startsWith("mailto:");
+        return (
+          <li key={label}>
+            <a
+              href={href}
+              aria-label={label}
+              target={external ? "_blank" : undefined}
+              rel={external ? "noopener noreferrer" : undefined}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-subtle hover:text-accent"
+            >
+              <Icon className="h-4.5 w-4.5" />
+            </a>
+          </li>
+        );
+      })}
     </ul>
   );
 }

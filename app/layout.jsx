@@ -1,4 +1,9 @@
-import { Inter, Geist_Mono } from "next/font/google";
+import {
+  Inter,
+  Geist_Mono,
+  Space_Grotesk,
+  Instrument_Serif,
+} from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { siteConfig, siteUrl } from "@/lib/site-config";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -15,6 +20,22 @@ const inter = Inter({
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
+  display: "swap",
+});
+
+/* Display face — tight, engineered grotesk for headlines and the hero name. */
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
+
+/* Editorial italic used for a single emphasised word inside headlines. */
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif",
   display: "swap",
 });
 
@@ -55,8 +76,8 @@ export const metadata = {
 
 export const viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: light)", color: "#fbfaf7" },
+    { media: "(prefers-color-scheme: dark)", color: "#0c0b10" },
   ],
 };
 
@@ -65,7 +86,10 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${geistMono.variable}`}
+      // globals.css sets `scroll-behavior: smooth`; this tells Next to opt out
+      // of it during route transitions rather than warn about it.
+      data-scroll-behavior="smooth"
+      className={`${inter.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${instrumentSerif.variable}`}
     >
       <body className="min-h-screen antialiased">
         <ThemeProvider

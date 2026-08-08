@@ -7,52 +7,73 @@
  */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ------------------------------------------------------------------ */
-/* Design tokens                                                       */
-/* One accent color (emerald) + neutral grays. Edit these to rebrand.  */
-/* ------------------------------------------------------------------ */
+/* ══════════════════════════════════════════════════════════════════════
+   DESIGN TOKENS — "Editorial Studio"
+
+   Light  = warm paper + ink.  Dark = deep plum-black + bone.
+   One interactive accent (violet) plus two editorial hues (coral, teal)
+   used purely as decoration — never as the only carrier of meaning.
+   Every token is defined in BOTH themes. Edit here to rebrand.
+   ══════════════════════════════════════════════════════════════════════ */
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
+  --background: #fbfaf7; /* warm paper */
+  --foreground: #16151a; /* ink */
 
   --card: #ffffff;
-  --card-foreground: #0a0a0a;
+  --card-foreground: #16151a;
 
-  --muted: #f4f4f5; /* zinc-100 */
-  --muted-foreground: #52525b; /* zinc-600 */
+  --muted: #f2f0ea;
+  --muted-foreground: #5c5866;
 
-  --border: #e4e4e7; /* zinc-200 */
-  --input: #e4e4e7;
+  --border: #e5e1d7;
+  --input: #e5e1d7;
 
-  /* Accent — emerald. `accent` reads well as text/links; `accent-foreground`
-     is the text color that sits on top of a solid accent surface. */
-  --accent: #047857; /* emerald-700 */
+  /* Primary interactive accent. */
+  --accent: #5b33f0;
   --accent-foreground: #ffffff;
-  --accent-subtle: #ecfdf5; /* emerald-50 — badge / hover tint */
-  --ring: #047857;
+  --accent-subtle: #efeafe;
+  --ring: #5b33f0;
+
+  /* Editorial secondary hues — decoration, gradients, category tints. */
+  --hue-1: #5b33f0; /* violet */
+  --hue-2: #e8543a; /* coral  */
+  --hue-3: #0e9285; /* teal   */
+
+  /* Elevation. Warm shadows read as paper rather than plastic. */
+  --shadow-sm: 0 1px 2px rgba(28, 22, 12, 0.06);
+  --shadow-md: 0 8px 24px -12px rgba(28, 22, 12, 0.18);
+  --shadow-lg: 0 24px 60px -24px rgba(28, 22, 12, 0.26);
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #fafafa;
+  --background: #0c0b10;
+  --foreground: #f6f5f8;
 
-  --card: #121214;
-  --card-foreground: #fafafa;
+  --card: #141319;
+  --card-foreground: #f6f5f8;
 
-  --muted: #18181b; /* zinc-900 */
-  --muted-foreground: #a1a1aa; /* zinc-400 */
+  --muted: #1a1922;
+  --muted-foreground: #a29fae;
 
-  --border: #27272a; /* zinc-800 */
-  --input: #27272a;
+  --border: #28262f;
+  --input: #28262f;
 
-  --accent: #34d399; /* emerald-400 — brighter for dark surfaces */
-  --accent-foreground: #022c22; /* emerald-950 */
-  --accent-subtle: #0b2f26; /* deep emerald tint */
-  --ring: #34d399;
+  --accent: #a98bff;
+  --accent-foreground: #180e33;
+  --accent-subtle: #1e1836;
+  --ring: #a98bff;
+
+  --hue-1: #a98bff;
+  --hue-2: #ff7c63;
+  --hue-3: #3fd0be;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 24px -12px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 24px 60px -24px rgba(0, 0, 0, 0.85);
 }
 
-/* Expose tokens as Tailwind theme values so `bg-background`, `text-accent`,
-   `border-border`, etc. all work. */
+/* Expose tokens to Tailwind so `bg-background`, `text-accent`,
+   `border-border`, `text-hue-2`, … all work. */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -66,8 +87,13 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-accent-subtle: var(--accent-subtle);
   --color-ring: var(--ring);
+  --color-hue-1: var(--hue-1);
+  --color-hue-2: var(--hue-2);
+  --color-hue-3: var(--hue-3);
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-inter), sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
@@ -76,21 +102,21 @@
     border-color: var(--border);
   }
 
-  /* Smoothly cross-fade colors when the theme is toggled. */
+  /* Cross-fade colors when the theme is toggled. */
   *,
   *::before,
   *::after {
     transition:
-      background-color 0.35s ease,
-      border-color 0.35s ease,
-      color 0.35s ease,
-      fill 0.35s ease;
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      color 0.3s ease,
+      fill 0.3s ease;
   }
 
   html {
     scroll-behavior: smooth;
     /* Keep anchored sections clear of the fixed navbar. */
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 6rem;
   }
 
   body {
@@ -101,10 +127,18 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* Visible, accessible keyboard focus everywhere. */
+  /* Display type is optically tighter than body copy. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+  }
+
   :focus-visible {
     outline: 2px solid var(--ring);
-    outline-offset: 2px;
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 
   ::selection {
@@ -113,20 +147,131 @@
   }
 }
 
-/* Reusable multi-hue gradient text — adds color while keeping one
-   interactive accent. Used for eyebrows and highlights. */
+/* ══════════════════════════════════════════════════════════════════════
+   SURFACES
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Flat editorial card — hairline border, no blur. The workhorse surface. */
+.surface {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Frosted bar — used only for the sticky navbar and mobile menu, where
+   content genuinely scrolls underneath. */
+.frost {
+  background-color: color-mix(in srgb, var(--background) 78%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
+}
+.dark .frost {
+  background-color: color-mix(in srgb, var(--background) 72%, transparent);
+  border-color: color-mix(in srgb, #ffffff 10%, transparent);
+}
+
+/* Paper texture — a whisper of tooth so large flat areas aren't dead. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.dark .grain::after {
+  opacity: 0.05;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   TYPE TREATMENTS
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Italic serif emphasis inside a grotesk headline — the signature move. */
+.serif-accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Outlined display type — the second masthead line. Falls back to solid ink
+   on engines without `-webkit-text-stroke` because the color is set first. */
+.hero-outline {
+  color: var(--foreground);
+}
+@supports (-webkit-text-stroke: 1px black) {
+  .hero-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--foreground);
+  }
+  @media (min-width: 640px) {
+    .hero-outline {
+      -webkit-text-stroke-width: 2px;
+    }
+  }
+}
+
 .text-gradient-accent {
-  background-image: linear-gradient(90deg, #059669, #0d9488, #0284c7);
+  background-image: linear-gradient(
+    100deg,
+    var(--hue-1),
+    var(--hue-2) 55%,
+    var(--hue-3)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
-.dark .text-gradient-accent {
-  background-image: linear-gradient(90deg, #34d399, #2dd4bf, #38bdf8);
+
+/* Link that draws its underline on hover, left to right. */
+.link-sweep {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-sweep:hover,
+.link-sweep:focus-visible {
+  background-size: 100% 1px;
 }
 
-/* Respect users who prefer less motion (belt-and-suspenders with
-   Framer Motion's own reduced-motion handling). */
+/* ══════════════════════════════════════════════════════════════════════
+   MOTION
+   ══════════════════════════════════════════════════════════════════════ */
+
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee-x var(--marquee-duration, 40s) linear infinite;
+}
+
+.marquee-mask {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

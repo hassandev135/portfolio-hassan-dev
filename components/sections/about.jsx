@@ -1,100 +1,131 @@
 import Image from "next/image";
+import { MapPin } from "lucide-react";
 import { about, siteConfig } from "@/lib/site-config";
 import { Section, SectionHeading } from "@/components/section";
-import { Reveal } from "@/components/motion/reveal";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 
 export function About() {
   // Typographic hierarchy without editing the copy:
-  //  - first line  → large lead statement
-  //  - last line   → accented closing statement
-  //  - the middle  → body paragraphs
+  //  - first line → the lead statement, set large
+  //  - last line  → the closing line, set as a pull quote
+  //  - the middle → body copy in two columns
   const [lead, ...rest] = about.paragraphs;
   const closing = rest.length > 0 ? rest[rest.length - 1] : null;
   const body = rest.slice(0, Math.max(0, rest.length - 1));
 
   return (
-    <Section id="about" className="bg-muted/30">
-      <SectionHeading eyebrow="About" title="A bit about me" />
+    <Section id="about">
+      <SectionHeading index="01" eyebrow="About" title="A bit about me" />
 
-      <div className="grid gap-12 md:grid-cols-[300px_1fr] md:gap-14 lg:gap-20">
-        {/* Portrait */}
-        <Reveal className="md:sticky md:top-24 md:self-start">
-          <div className="group relative mx-auto w-full max-w-75">
-            {/* soft accent glow */}
-            <div
+      <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-20">
+        {/* ── Prose column ── */}
+        <div>
+          <Reveal>
+            <p className="text-3xl leading-[1.15] tracking-tight text-balance sm:text-4xl">
+              {lead}
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <div className="mt-10 max-w-prose space-y-5 text-base leading-[1.8] text-muted-foreground">
+              {body.map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
+            </div>
+          </Reveal>
+
+          {closing ? (
+            <Reveal delay={0.12}>
+              <blockquote className="mt-10 border-l-2 border-accent pl-6">
+                <p className="serif-accent text-2xl leading-snug text-foreground sm:text-3xl">
+                  “{closing}”
+                </p>
+              </blockquote>
+            </Reveal>
+          ) : null}
+        </div>
+
+        {/* ── Portrait rail ── */}
+        <Reveal delay={0.1} className="lg:sticky lg:top-28 lg:self-start">
+          <figure className="group relative mx-auto w-full max-w-80">
+            {/* Offset rule frame — paper, not glow. */}
+            <span
               aria-hidden="true"
-              className="absolute -inset-4 -z-10 rounded-[1.75rem] bg-gradient-to-tr from-emerald-400/25 via-teal-400/15 to-sky-400/25 opacity-70 blur-2xl dark:from-emerald-500/20 dark:via-teal-500/12 dark:to-sky-500/20"
+              className="absolute inset-0 translate-x-3.5 translate-y-3.5 rounded-lg border-2 border-accent/70 transition-transform duration-500 ease-out group-hover:translate-x-1.5 group-hover:translate-y-1.5"
             />
-            {/* offset accent frame */}
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 translate-x-4 translate-y-4 rounded-2xl border-2 border-accent/60 transition-transform duration-300 ease-out group-hover:translate-x-2.5 group-hover:translate-y-2.5"
-            />
-            <div className="relative aspect-4/5 overflow-hidden rounded-2xl border border-border bg-card shadow-xl ring-1 ring-black/5 dark:ring-white/10">
+            <div className="relative aspect-4/5 overflow-hidden rounded-lg border border-border bg-muted">
               <Image
                 src={about.photo}
                 alt={`${siteConfig.name}, ${siteConfig.title}`}
                 fill
-                sizes="300px"
-                className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                sizes="(min-width: 1024px) 320px, 80vw"
+                className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
               />
             </div>
-          </div>
-        </Reveal>
+          </figure>
 
-        {/* Prose */}
-        <Reveal delay={0.1}>
-          <p className="text-pretty text-2xl font-medium leading-snug tracking-tight text-foreground sm:text-3xl">
-            {lead}
-          </p>
-
-          <div className="mt-6 space-y-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-            {body.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </div>
-
-          {closing ? (
-            <p className="mt-8 border-l-2 border-accent pl-5 text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-              {closing}
-            </p>
-          ) : null}
+          <dl className="mx-auto mt-8 w-full max-w-80 divide-y divide-border border-y border-border text-sm">
+            {siteConfig.availability ? (
+              <div className="flex items-center gap-3 py-3">
+                <span className="relative flex h-2 w-2 shrink-0">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-hue-3 opacity-75 motion-reduce:animate-none" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-hue-3" />
+                </span>
+                <dt className="sr-only">Availability</dt>
+                <dd className="font-medium">{siteConfig.availability}</dd>
+              </div>
+            ) : null}
+            {siteConfig.location ? (
+              <div className="flex items-center gap-3 py-3">
+                <MapPin className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                <dt className="sr-only">Location</dt>
+                <dd className="text-muted-foreground">{siteConfig.location}</dd>
+              </div>
+            ) : null}
+          </dl>
         </Reveal>
       </div>
 
-      {/* How I build */}
-      <Reveal delay={0.15} className="mt-16">
-        <div className="mb-6 flex items-center gap-4">
-          <h3 className="text-sm font-semibold uppercase tracking-widest text-foreground">
+      {/* ── How I build ── */}
+      <div className="mt-24">
+        <Reveal className="mb-8 flex items-center gap-4">
+          <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
             How I build
           </h3>
           <span className="h-px flex-1 bg-border" aria-hidden="true" />
-        </div>
+        </Reveal>
 
-        <ol className="grid gap-4 sm:grid-cols-3">
-          {about.whatIDo.map((item, i) => {
-            const dash = item.indexOf("—");
-            const head = dash >= 0 ? item.slice(0, dash).trim() : item;
-            const tail = dash >= 0 ? item.slice(dash) : "";
+        <RevealGroup
+          as="ol"
+          className="grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-3"
+        >
+          {about.whatIDo.map((entry, i) => {
+            // Copy is written as "Headline — supporting detail".
+            const dash = entry.indexOf("—");
+            const head = dash >= 0 ? entry.slice(0, dash).trim() : entry;
+            const tail = dash >= 0 ? entry.slice(dash + 1).trim() : "";
             return (
-              <li
-                key={item}
-                className="group rounded-xl border border-border bg-card/60 p-5 transition-colors hover:border-accent/40"
+              <RevealItem
+                as="li"
+                key={entry}
+                className="group h-full bg-background p-7 transition-colors duration-300 hover:bg-muted/60"
               >
-                <span className="font-mono text-sm font-semibold text-accent">
+                <span className="font-mono text-xs font-semibold tabular-nums text-accent">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <p className="mt-3 leading-relaxed">
-                  <span className="font-semibold text-foreground">{head}</span>
-                  {tail ? (
-                    <span className="text-muted-foreground"> {tail}</span>
-                  ) : null}
+                <p className="mt-4 text-lg font-semibold leading-snug tracking-tight">
+                  {head}
                 </p>
-              </li>
+                {tail ? (
+                  <p className="mt-2 leading-relaxed text-muted-foreground">
+                    {tail}
+                  </p>
+                ) : null}
+              </RevealItem>
             );
           })}
-        </ol>
-      </Reveal>
+        </RevealGroup>
+      </div>
     </Section>
   );
 }

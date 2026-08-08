@@ -10,6 +10,8 @@ export function useMDXComponents(components) {
   return {
     img: (props) => (
       <Image
+        // Default to decorative; a markdown `![alt](src)` overrides it below.
+        alt=""
         sizes="100vw"
         style={{ width: "100%", height: "auto" }}
         className="rounded-lg border border-border"

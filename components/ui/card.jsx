@@ -6,7 +6,7 @@ const Card = forwardRef(function Card({ className, ...props }, ref) {
     <div
       ref={ref}
       className={cn(
-        "rounded-xl border border-border bg-card text-card-foreground shadow-sm",
+        "surface rounded-2xl text-card-foreground transition-[border-color,box-shadow,transform] duration-300",
         className,
       )}
       {...props}
@@ -37,7 +37,7 @@ const CardDescription = forwardRef(function CardDescription(
   return (
     <p
       ref={ref}
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("text-sm leading-relaxed text-muted-foreground", className)}
       {...props}
     />
   );

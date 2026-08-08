@@ -6,7 +6,11 @@ const Textarea = forwardRef(function Textarea({ className, ...props }, ref) {
     <textarea
       ref={ref}
       className={cn(
-        "flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:border-accent focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-red-500",
+        "min-h-30 w-full resize-y border-0 border-b border-input bg-transparent px-0 py-2 text-base text-foreground transition-colors outline-none",
+        "placeholder:text-muted-foreground/60",
+        "focus-visible:border-accent focus-visible:outline-none",
+        "disabled:cursor-not-allowed disabled:opacity-50",
+        "aria-invalid:border-hue-2",
         className,
       )}
       {...props}
