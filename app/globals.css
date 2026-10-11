@@ -171,6 +171,15 @@
   border-color: color-mix(in srgb, #ffffff 10%, transparent);
 }
 
+/* Brand icons (lib/tech-icons.jsx) hand their light/dark hexes in as custom
+   properties; this picks the right one per theme with no JS involved. */
+.tech-icon {
+  color: var(--icon-light, currentColor);
+}
+.dark .tech-icon {
+  color: var(--icon-dark, var(--icon-light, currentColor));
+}
+
 /* Paper texture — a whisper of tooth so large flat areas aren't dead. */
 .grain::after {
   content: "";

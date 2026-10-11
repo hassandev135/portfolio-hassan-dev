@@ -57,8 +57,8 @@ export function Hero() {
     >
       {/* ── Background: paper, one warm wash, one cool wash, drawn columns ── */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-20">
-        <div className="absolute -left-1/4 top-0 h-[520px] w-[520px] rounded-full bg-hue-1/12 blur-[130px] dark:bg-hue-1/20" />
-        <div className="absolute -right-1/5 bottom-1/4 h-[460px] w-[460px] rounded-full bg-hue-2/10 blur-[130px] dark:bg-hue-2/14" />
+        <div className="absolute -left-1/4 top-0 h-130 w-130 rounded-full bg-hue-1/12 blur-[130px] dark:bg-hue-1/20" />
+        <div className="absolute -right-1/5 bottom-1/4 h-155 w-155 rounded-full bg-hue-2/10 blur-[130px] dark:bg-hue-2/14" />
       </div>
       <ColumnRules />
 
@@ -92,7 +92,7 @@ export function Hero() {
             transition={{ duration: 0.9, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
             className="relative z-10 mx-auto mb-7 block w-28 sm:absolute sm:left-1/2 sm:top-1/2 sm:mb-0 sm:w-[clamp(96px,11vw,140px)] sm:-translate-x-1/2 sm:-translate-y-1/2"
           >
-            <span className="group relative block aspect-square overflow-hidden rounded-full bg-gradient-to-b from-accent-subtle to-muted shadow-[var(--shadow-lg)] ring-1 ring-border sm:aspect-3/5">
+            <span className="group relative block aspect-square overflow-hidden rounded-full bg-linear-to-b from-accent-subtle to-muted shadow-[var(--shadow-lg)] ring-1 ring-border sm:aspect-3/5">
               <Image
                 src={siteConfig.heroPortrait}
                 alt=""
@@ -123,17 +123,26 @@ export function Hero() {
 
         </h1>
 
-        {/* ── Role + tagline ── */}
-        <motion.p
-          {...rise(0.5)}
-          className="mx-auto mt-10 max-w-3xl text-center text-xl leading-snug tracking-tight text-balance sm:text-2xl"
-        >
-          <span className="font-semibold">{siteConfig.title}</span>
-          <span className="text-muted-foreground"> — </span>
-          <span className="serif-accent text-muted-foreground">
+        {/* ── Role → claim → supporting line, three distinct tiers so none of
+               them has to be read as part of the sentence above it. ── */}
+        <motion.div {...rise(0.5)} className="mt-9 text-center sm:mt-10">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent sm:text-base">
+            {siteConfig.title}
+          </p>
+
+          {siteConfig.statement ? (
+            <p className="mx-auto mt-4 max-w-2xl font-display text-2xl font-bold leading-[1.15] tracking-tight text-balance sm:text-4xl">
+              {siteConfig.statement}
+            </p>
+          ) : null}
+
+          {/* Body copy stays in the sans face — the italic serif is reserved
+              for one- or two-word emphasis, where it reads as a flourish
+              rather than as a paragraph to wade through. */}
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-[1.7] text-pretty text-muted-foreground sm:text-lg">
             {siteConfig.tagline}
-          </span>
-        </motion.p>
+          </p>
+        </motion.div>
 
         {/* ── CTAs ── */}
         <motion.div
