@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { navItems, siteConfig } from "@/lib/site-config";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -17,7 +16,6 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActive] = useState(null);
-  const reduce = useReducedMotion();
   const pathname = usePathname();
   const onHome = pathname === "/";
   /* Section anchors only exist on the home route; elsewhere nothing is active. */
@@ -80,7 +78,7 @@ export function Navbar() {
           <Logo />
         </Link>
 
-        {/* Desktop nav — the active pill slides between items. */}
+        {/* Desktop nav — the active section gets a muted pill. */}
         <ul className="hidden items-center gap-0.5 md:flex">
           {navItems.map((item) => {
             const id = item.href.replace("#", "");
@@ -91,24 +89,12 @@ export function Navbar() {
                   href={`/${item.href}`}
                   aria-current={isActive ? "true" : undefined}
                   className={cn(
-                    "relative block rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
+                    "block rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
                     isActive
-                      ? "text-foreground"
+                      ? "bg-muted text-foreground"
                       : "text-muted-foreground hover:text-foreground",
                   )}
                 >
-                  {isActive ? (
-                    <motion.span
-                      layoutId="nav-pill"
-                      aria-hidden="true"
-                      className="absolute inset-0 -z-10 rounded-full bg-muted"
-                      transition={
-                        reduce
-                          ? { duration: 0 }
-                          : { type: "spring", stiffness: 380, damping: 32 }
-                      }
-                    />
-                  ) : null}
                   {item.label}
                 </Link>
               </li>
@@ -152,45 +138,39 @@ export function Navbar() {
       </nav>
 
       {/* Mobile menu */}
-      <AnimatePresence>
-        {open ? (
-          <motion.div
-            id="mobile-menu"
-            initial={reduce ? false : { opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? undefined : { opacity: 0, y: -8 }}
-            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="frost mx-auto mt-2 max-w-6xl overflow-hidden rounded-3xl shadow-[var(--shadow-lg)] md:hidden"
-          >
-            <ul className="flex flex-col p-3">
-              {navItems.map((item, i) => (
-                <li key={item.href}>
-                  <Link
-                    href={`/${item.href}`}
-                    onClick={() => setOpen(false)}
-                    className="flex items-baseline gap-3 rounded-2xl px-4 py-3.5 text-xl font-semibold tracking-tight transition-colors hover:bg-muted"
-                  >
-                    <span className="font-mono text-xs text-accent tabular-nums">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <div className="border-t border-border p-3">
-              <a
-                href={siteConfig.resumeUrl}
-                download
-                onClick={() => setOpen(false)}
-                className={cn(buttonVariants({ variant: "outline" }), "w-full")}
-              >
-                Download Résumé
-              </a>
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+      {open ? (
+        <div
+          id="mobile-menu"
+          className="animate-menu-in frost mx-auto mt-2 max-w-6xl overflow-hidden rounded-3xl shadow-[var(--shadow-lg)] md:hidden"
+        >
+          <ul className="flex flex-col p-3">
+            {navItems.map((item, i) => (
+              <li key={item.href}>
+                <Link
+                  href={`/${item.href}`}
+                  onClick={() => setOpen(false)}
+                  className="flex items-baseline gap-3 rounded-2xl px-4 py-3.5 text-xl font-semibold tracking-tight transition-colors hover:bg-muted"
+                >
+                  <span className="font-mono text-xs text-accent tabular-nums">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="border-t border-border p-3">
+            <a
+              href={siteConfig.resumeUrl}
+              download
+              onClick={() => setOpen(false)}
+              className={cn(buttonVariants({ variant: "outline" }), "w-full")}
+            >
+              Download Résumé
+            </a>
+          </div>
+        </div>
+      ) : null}
     </header>
   );
 }

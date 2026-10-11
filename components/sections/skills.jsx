@@ -15,7 +15,7 @@ export function Skills() {
         eyebrow="Skills"
         title={
           <>
-            Tools I <span className="serif-accent">actually</span> reach for
+            Tools I <span className="text-accent">actually</span> reach for
           </>
         }
         description="A pragmatic toolkit across the stack — chosen for reliability and developer experience, not novelty."

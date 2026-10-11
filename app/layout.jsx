@@ -1,9 +1,4 @@
-import {
-  Inter,
-  Geist_Mono,
-  Space_Grotesk,
-  Instrument_Serif,
-} from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { siteConfig, siteUrl } from "@/lib/site-config";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -11,31 +6,16 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import "./globals.css";
 
-const inter = Inter({
+/* One variable sans for everything, plus its mono for small labels. */
+const geist = Geist({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-geist-sans",
   display: "swap",
 });
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
-  display: "swap",
-});
-
-/* Display face — tight, engineered grotesk for headlines and the hero name. */
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-  display: "swap",
-});
-
-/* Editorial italic used for a single emphasised word inside headlines. */
-const instrumentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-  variable: "--font-instrument-serif",
   display: "swap",
 });
 
@@ -89,9 +69,13 @@ export default function RootLayout({ children }) {
       // globals.css sets `scroll-behavior: smooth`; this tells Next to opt out
       // of it during route transitions rather than warn about it.
       data-scroll-behavior="smooth"
-      className={`${inter.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${instrumentSerif.variable}`}
+      className={`${geist.variable} ${geistMono.variable}`}
     >
       <body className="min-h-screen antialiased">
+        {/* Scroll reveals start hidden; without JS, show everything. */}
+        <noscript>
+          <style>{`.reveal,.reveal-item{opacity:1!important;animation:none!important}`}</style>
+        </noscript>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

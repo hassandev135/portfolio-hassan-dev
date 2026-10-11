@@ -37,7 +37,7 @@ export function About() {
           {closing ? (
             <Reveal delay={0.12}>
               <blockquote className="mt-10 border-l-2 border-accent pl-6">
-                <p className="serif-accent text-2xl leading-snug text-foreground sm:text-3xl">
+                <p className="text-2xl font-medium leading-snug tracking-tight text-foreground sm:text-3xl">
                   “{closing}”
                 </p>
               </blockquote>

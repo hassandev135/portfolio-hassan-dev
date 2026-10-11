@@ -9,9 +9,9 @@ export const metadata = {
 
 export default function NotFound() {
   return (
-    <div className="grain relative mx-auto flex min-h-[80svh] max-w-6xl flex-col items-center justify-center px-6 text-center">
+    <div className="relative mx-auto flex min-h-[80svh] max-w-6xl flex-col items-center justify-center px-6 text-center">
       <p className="font-display text-[clamp(6rem,22vw,14rem)] font-bold leading-none tracking-[-0.05em]">
-        <span className="hero-outline">404</span>
+        <span className="text-accent">404</span>
       </p>
       <h1 className="mt-6 text-3xl font-bold tracking-tight sm:text-4xl">
         This page doesn&apos;t exist

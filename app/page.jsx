@@ -1,5 +1,4 @@
 import { Hero } from "@/components/sections/hero";
-import { TechTicker } from "@/components/tech-ticker";
 import { About } from "@/components/sections/about";
 import { Skills } from "@/components/sections/skills";
 import { Projects } from "@/components/sections/projects";
@@ -10,7 +9,6 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <TechTicker />
       <About />
       <Skills />
       <Projects />

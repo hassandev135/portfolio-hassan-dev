@@ -8,13 +8,13 @@ export function Footer() {
   const year = 2026; // Static build year; update or derive as you prefer.
 
   return (
-    <footer className="grain relative overflow-hidden border-t border-border bg-muted/40">
+    <footer className="relative overflow-hidden border-t border-border bg-muted/40">
       <div className="mx-auto w-full max-w-6xl px-6 py-16">
         <div className="grid gap-12 md:grid-cols-[minmax(0,1fr)_auto] md:gap-16">
           <div>
             <Logo />
             <p className="mt-5 max-w-sm text-lg leading-snug tracking-tight text-balance text-muted-foreground">
-              <span className="serif-accent text-foreground">
+              <span className="font-medium text-foreground">
                 {siteConfig.title}
               </span>{" "}
               based in {siteConfig.location}.

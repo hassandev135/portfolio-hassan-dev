@@ -78,7 +78,7 @@ export function Contact() {
         eyebrow="Contact"
         title={
           <>
-            Let&apos;s work <span className="serif-accent">together</span>
+            Let&apos;s work <span className="text-accent">together</span>
           </>
         }
         description="Have a project in mind or just want to say hello? Send a message, or reach me directly."
