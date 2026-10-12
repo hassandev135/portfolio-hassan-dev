@@ -33,7 +33,7 @@ export function Footer() {
                 <li key={item.href}>
                   <Link
                     href={`/${item.href}`}
-                    className="link-sweep text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                    className="bg-[linear-gradient(currentColor,currentColor)] bg-size-[0%_1px] bg-bottom-left bg-no-repeat transition-[color,background-size] duration-300 ease-out-soft hover:bg-size-[100%_1px] focus-visible:bg-size-[100%_1px] text-sm font-medium text-muted-foreground hover:text-foreground"
                   >
                     {item.label}
                   </Link>
@@ -43,7 +43,7 @@ export function Footer() {
                 <a
                   href={siteConfig.resumeUrl}
                   download
-                  className="link-sweep text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                  className="bg-[linear-gradient(currentColor,currentColor)] bg-size-[0%_1px] bg-bottom-left bg-no-repeat transition-[color,background-size] duration-300 ease-out-soft hover:bg-size-[100%_1px] focus-visible:bg-size-[100%_1px] text-sm font-medium text-muted-foreground hover:text-foreground"
                 >
                   Résumé
                 </a>

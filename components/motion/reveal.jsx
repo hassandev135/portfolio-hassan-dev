@@ -4,9 +4,9 @@ import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Scroll-triggered fade + slide-in, driven by one IntersectionObserver and a
- * CSS keyframe (see `.reveal` in globals.css) — no animation library.
- * Reduced-motion users get the content immediately; with JS disabled a
+ * Scroll-triggered fade + slide-in. An IntersectionObserver flips
+ * `data-reveal="shown"`, and Tailwind's `data-*` variant starts the
+ * `animate-rise-in` keyframe — no animation library. With JS disabled a
  * <noscript> rule in the layout un-hides everything.
  */
 function useReveal(onShow) {
@@ -50,8 +50,8 @@ export function Reveal({ children, className, delay = 0, y = 16, as: Tag = "div"
     <Tag
       ref={ref}
       data-reveal=""
-      className={cn("reveal", className)}
-      style={{ "--reveal-delay": `${delay}s`, "--reveal-y": `${y}px`, ...style }}
+      className={cn("opacity-0 data-[reveal=shown]:animate-rise-in", className)}
+      style={{ "--rise-y": `${y}px`, animationDelay: `${delay}s`, ...style }}
       {...props}
     >
       {children}
@@ -65,11 +65,11 @@ export function Reveal({ children, className, delay = 0, y = 16, as: Tag = "div"
 export function RevealGroup({ children, className, stagger = 0.08, as: Tag = "div", ...props }) {
   const ref = useReveal((el) => {
     [...el.children].forEach((child, i) => {
-      child.style.setProperty("--reveal-delay", `${i * stagger}s`);
+      child.style.animationDelay = `${i * stagger}s`;
     });
   });
   return (
-    <Tag ref={ref} data-reveal="" className={cn("reveal-group", className)} {...props}>
+    <Tag ref={ref} data-reveal="" className={cn("group/reveal", className)} {...props}>
       {children}
     </Tag>
   );
@@ -78,8 +78,9 @@ export function RevealGroup({ children, className, stagger = 0.08, as: Tag = "di
 export function RevealItem({ children, className, y = 16, as: Tag = "div", style, ...props }) {
   return (
     <Tag
-      className={cn("reveal-item", className)}
-      style={{ "--reveal-y": `${y}px`, ...style }}
+      data-reveal-item=""
+      className={cn("opacity-0 group-data-[reveal=shown]/reveal:animate-rise-in", className)}
+      style={{ "--rise-y": `${y}px`, ...style }}
       {...props}
     >
       {children}

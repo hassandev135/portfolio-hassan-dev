@@ -136,11 +136,11 @@ export function TechIcon({ name, className }) {
   const { brand, Icon, color, darkColor } = getTechIcon(name);
   const ink = color === INK;
 
-  /* The light and dark hexes are handed to CSS as custom properties and the
-     `.tech-icon` rule picks between them, so the right colour is painted on
+  /* The light and dark hexes are handed in as custom properties and the
+     `dark:` variant picks between them, so the right colour is painted on
      first render — no JS theme lookup, no hydration flash. */
   const props = {
-    className: cn(!ink && "tech-icon", className),
+    className: cn(!ink && "text-(--icon-light) dark:text-(--icon-dark)", className),
     style: ink
       ? undefined
       : { "--icon-light": color, "--icon-dark": darkColor || color },

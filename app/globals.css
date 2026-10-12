@@ -96,30 +96,43 @@
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
+/* Motion, registered as theme tokens so it is used as Tailwind utilities:
+   `animate-rise-in`, `animate-span-grow`, `ease-out-soft`. Offsets, delays and
+   durations are tuned per element with `[--rise-y:…]`, `[animation-delay:…]`. */
+@theme {
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-rise-in: rise-in 0.6s var(--ease-out-soft) both;
+  --animate-span-grow: span-grow 0.4s var(--ease-out-soft) both;
+
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(var(--rise-y, 12px));
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes span-grow {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
 @layer base {
   * {
     border-color: var(--border);
-  }
-
-  html {
-    scroll-behavior: smooth;
-    /* Keep anchored sections clear of the fixed navbar. */
-    scroll-padding-top: 6rem;
-  }
-
-  body {
-    background-color: var(--background);
-    color: var(--foreground);
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
   }
 
   /* Display type is optically tighter than body copy. */
   h1,
   h2,
   h3 {
-    font-family: var(--font-display);
     letter-spacing: -0.03em;
   }
 
@@ -136,31 +149,10 @@
 }
 
 /* ══════════════════════════════════════════════════════════════════════
-   SURFACES
+   The only custom class. Two layered radial washes plus a grid that fades
+   out through a mask — as Tailwind arbitrary values this would be one
+   unreadable class string, so it stays here.
    ══════════════════════════════════════════════════════════════════════ */
-
-/* Flat editorial card — hairline border, no blur. The workhorse surface. */
-.surface {
-  background-color: var(--card);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
-}
-
-/* Frosted bar — used only for the sticky navbar and mobile menu, where
-   content genuinely scrolls underneath. */
-.frost {
-  background-color: color-mix(in srgb, var(--background) 78%, transparent);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
-}
-.dark .frost {
-  background-color: color-mix(in srgb, var(--background) 72%, transparent);
-  border-color: color-mix(in srgb, #ffffff 10%, transparent);
-}
-
-/* Hero backdrop: two soft colour washes and a faint grid that fades out
-   from the top. Gradients only — no blur filters or noise textures to paint. */
 .hero-backdrop {
   background:
     radial-gradient(55% 45% at 85% 5%, color-mix(in srgb, var(--hue-1) 14%, transparent), transparent 70%),
@@ -176,115 +168,19 @@
   background-size: 56px 56px;
   opacity: 0.55;
   mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black, transparent 75%);
 }
 .dark .hero-backdrop::before {
   opacity: 0.4;
 }
 
-/* Brand icons (lib/tech-icons.jsx) hand their light/dark hexes in as custom
-   properties; this picks the right one per theme with no JS involved. */
-.tech-icon {
-  color: var(--icon-light, currentColor);
-}
-.dark .tech-icon {
-  color: var(--icon-dark, var(--icon-light, currentColor));
-}
-
-/* ══════════════════════════════════════════════════════════════════════
-   TYPE TREATMENTS
-   ══════════════════════════════════════════════════════════════════════ */
-
-/* Link that draws its underline on hover, left to right. */
-.link-sweep {
-  background-image: linear-gradient(currentColor, currentColor);
-  background-repeat: no-repeat;
-  background-position: 0 100%;
-  background-size: 0% 1px;
-  transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.link-sweep:hover,
-.link-sweep:focus-visible {
-  background-size: 100% 1px;
-}
-
-/* ══════════════════════════════════════════════════════════════════════
-   MOTION
-   ══════════════════════════════════════════════════════════════════════ */
-
-/* All motion is plain CSS keyframes — no animation library ships to the
-   browser. One easing curve everywhere. */
-@keyframes rise-in {
-  from {
-    opacity: 0;
-    transform: translateY(var(--rise-y, 12px));
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* Hero entrance: runs on first paint, staggered by `--hero-delay`. */
-.hero-in {
-  animation: rise-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) var(--hero-delay, 0ms) both;
-}
-
-/* Scroll reveals (components/motion/reveal.jsx). Hidden until the observer
-   marks the element `data-reveal="shown"`. */
-.reveal:not([data-reveal="shown"]),
-.reveal-group:not([data-reveal="shown"]) > .reveal-item {
-  opacity: 0;
-}
-.reveal[data-reveal="shown"],
-.reveal-group[data-reveal="shown"] > .reveal-item {
-  --rise-y: var(--reveal-y, 16px);
-  animation: rise-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s) both;
-}
-
-/* Hero trace card: rows fade in and span bars grow from their start point,
-   each at its own `--span-delay`, replaying the request once. */
-@keyframes span-grow {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-.trace-row {
-  --rise-y: 4px;
-  animation: rise-in 0.4s ease-out var(--span-delay, 0ms) both;
-}
-.trace-span {
-  transform-origin: left;
-  animation: span-grow var(--span-duration, 400ms) cubic-bezier(0.22, 1, 0.36, 1)
-    var(--span-delay, 0ms) both;
-}
-
-/* Mobile menu drop-in. */
-.animate-menu-in {
-  --rise-y: -8px;
-  animation: rise-in 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
+/* Reduced motion: a global safety net for anything that animates, so no
+   individual component can forget. */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  .hero-in,
-  .trace-row,
-  .trace-span,
-  .reveal,
-  .reveal-item,
-  .animate-menu-in {
-    animation: none !important;
-    opacity: 1 !important;
-  }
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }

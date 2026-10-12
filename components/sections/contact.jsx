@@ -99,7 +99,7 @@ export function Contact() {
 
           <a
             href={`mailto:${siteConfig.email}`}
-            className="link-sweep inline-block font-display text-2xl font-semibold leading-tight tracking-tight break-all transition-colors hover:text-accent sm:text-3xl"
+            className="inline-block font-display text-2xl font-semibold leading-tight tracking-tight break-all bg-[linear-gradient(currentColor,currentColor)] bg-size-[0%_1px] bg-bottom-left bg-no-repeat transition-[color,background-size] duration-300 ease-out-soft hover:bg-size-[100%_1px] focus-visible:bg-size-[100%_1px] hover:text-accent sm:text-3xl"
           >
             {siteConfig.email}
           </a>

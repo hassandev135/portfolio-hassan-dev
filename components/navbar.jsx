@@ -12,6 +12,10 @@ import { cn } from "@/lib/utils";
 
 const sectionIds = navItems.map((item) => item.href.replace("#", ""));
 
+/* Frosted glass, used only where content genuinely scrolls underneath. */
+const frost =
+  "border border-foreground/8 bg-background/78 backdrop-blur-lg backdrop-saturate-180 dark:border-white/10 dark:bg-background/72";
+
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -65,7 +69,7 @@ export function Navbar() {
         className={cn(
           "mx-auto flex h-14 max-w-6xl items-center justify-between rounded-full pl-5 pr-2 transition-all duration-500 ease-out",
           scrolled
-            ? "frost shadow-[var(--shadow-md)]"
+            ? cn(frost, "shadow-[var(--shadow-md)]")
             : "border border-transparent bg-transparent",
         )}
       >
@@ -141,7 +145,10 @@ export function Navbar() {
       {open ? (
         <div
           id="mobile-menu"
-          className="animate-menu-in frost mx-auto mt-2 max-w-6xl overflow-hidden rounded-3xl shadow-[var(--shadow-lg)] md:hidden"
+          className={cn(
+            frost,
+            "mx-auto mt-2 max-w-6xl animate-rise-in overflow-hidden rounded-3xl shadow-[var(--shadow-lg)] [--rise-y:-8px] [animation-duration:220ms] md:hidden",
+          )}
         >
           <ul className="flex flex-col p-3">
             {navItems.map((item, i) => (

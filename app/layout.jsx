@@ -66,15 +66,15 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       suppressHydrationWarning
-      // globals.css sets `scroll-behavior: smooth`; this tells Next to opt out
-      // of it during route transitions rather than warn about it.
+      // `scroll-smooth` is set on <html>; this tells Next to opt out of it
+      // during route transitions rather than warn about it.
       data-scroll-behavior="smooth"
-      className={`${geist.variable} ${geistMono.variable}`}
+      className={`${geist.variable} ${geistMono.variable} scroll-pt-24 motion-safe:scroll-smooth`}
     >
-      <body className="min-h-screen antialiased">
+      <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         {/* Scroll reveals start hidden; without JS, show everything. */}
         <noscript>
-          <style>{`.reveal,.reveal-item{opacity:1!important;animation:none!important}`}</style>
+          <style>{`[data-reveal],[data-reveal-item]{opacity:1!important}`}</style>
         </noscript>
         <ThemeProvider
           attribute="class"
