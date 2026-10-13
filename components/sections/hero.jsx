@@ -75,16 +75,6 @@ function SpanRow({ span, total }) {
   );
 }
 
-/**
- * A request trace, the way an observability tool draws one: each span is a
- * bar on a shared time axis. It follows one checkout in the order a payments
- * stack really runs it — the card authorization times out and is retried
- * with the same idempotency key (one charge, not two), the ledger entries and
- * an outbox event commit together, the API responds, and only then does the
- * merchant webhook go out, asynchronously.
- *
- * The card sits in a <Tilt>, so it leans toward the cursor and drifts on scroll.
- */
 function TraceCard() {
   const { id, amount, spans, result, resultDetail, footnote } = heroTrace;
   const total = Math.max(...spans.map((s) => s.start + s.duration));
@@ -216,8 +206,14 @@ export function Hero() {
             <span className="text-accent">{siteConfig.headline.accent}</span>
           </h1>
 
+          {siteConfig.subheadline ? (
+            <p className="animate-rise-in [animation-delay:140ms] mt-6 text-xl font-medium tracking-tight text-foreground/85 sm:text-2xl">
+              {siteConfig.subheadline}
+            </p>
+          ) : null}
+
           <p
-            className="animate-rise-in [animation-delay:160ms] mt-6 max-w-xl text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
+            className="animate-rise-in [animation-delay:180ms] mt-3 max-w-xl text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
           >
             {siteConfig.tagline}
           </p>

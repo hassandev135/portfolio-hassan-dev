@@ -2,13 +2,10 @@ import Image from "next/image";
 import { MapPin } from "lucide-react";
 import { about, siteConfig } from "@/lib/site-config";
 import { Section, SectionHeading } from "@/components/section";
-import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
+import { Principles } from "@/components/sections/principles";
+import { Reveal } from "@/components/motion/reveal";
 
 export function About() {
-  // Typographic hierarchy without editing the copy:
-  //  - first line → the lead statement, set large
-  //  - last line  → the closing line, set as a pull quote
-  //  - the middle → body copy in two columns
   const [lead, ...rest] = about.paragraphs;
   const closing = rest.length > 0 ? rest[rest.length - 1] : null;
   const body = rest.slice(0, Math.max(0, rest.length - 1));
@@ -29,7 +26,7 @@ export function About() {
           <Reveal delay={0.08}>
             <div className="mt-10 max-w-prose space-y-5 text-base leading-[1.8] text-muted-foreground">
               {body.map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
+                <p key={i} className="whitespace-pre-line">{paragraph}</p>
               ))}
             </div>
           </Reveal>
@@ -86,46 +83,7 @@ export function About() {
         </Reveal>
       </div>
 
-      {/* ── How I build ── */}
-      <div className="mt-24">
-        <Reveal className="mb-8 flex items-center gap-4">
-          <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-            How I build
-          </h3>
-          <span className="h-px flex-1 bg-border" aria-hidden="true" />
-        </Reveal>
-
-        <RevealGroup
-          as="ol"
-          className="grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-3"
-        >
-          {about.whatIDo.map((entry, i) => {
-            // Copy is written as "Headline — supporting detail".
-            const dash = entry.indexOf("—");
-            const head = dash >= 0 ? entry.slice(0, dash).trim() : entry;
-            const tail = dash >= 0 ? entry.slice(dash + 1).trim() : "";
-            return (
-              <RevealItem
-                as="li"
-                key={entry}
-                className="group h-full bg-background p-7 transition-colors duration-300 hover:bg-muted/60"
-              >
-                <span className="font-mono text-xs font-semibold tabular-nums text-accent">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <p className="mt-4 text-lg font-semibold leading-snug tracking-tight">
-                  {head}
-                </p>
-                {tail ? (
-                  <p className="mt-2 leading-relaxed text-muted-foreground">
-                    {tail}
-                  </p>
-                ) : null}
-              </RevealItem>
-            );
-          })}
-        </RevealGroup>
-      </div>
+      <Principles />
     </Section>
   );
 }

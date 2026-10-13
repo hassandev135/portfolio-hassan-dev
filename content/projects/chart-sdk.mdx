@@ -1,0 +1,55 @@
+## Problem
+
+Prop Capitals needed a browser trading terminal that feels like MetaTrader 5:
+live candles, one-click market execution, pending orders, position
+management, and a full set of drawing tools. Off-the-shelf chart widgets stop
+at drawing candles. Everything a prop firm actually judges a trader on, such
+as order placement, stop-loss and take-profit handling, margin and equity,
+lives on top of the chart and has to stay in sync with the backend in real
+time.
+
+Rather than bury that inside one app, the team built it as a standalone React
+package published to npm, so the same terminal can be dropped into any
+platform that exposes a compatible candles, symbols, trades and account API.
+
+## What I built
+
+The SDK wraps TradingView's Lightweight Charts in a `TradingProvider` that
+owns symbols, prices, orders and account state, and exposes composable
+components: chart, toolbar, market watch, positions panel, account panel and
+order modals. Consumers point it at their own backend and override endpoint
+paths if needed.
+
+My work centred on the order flow and account state:
+
+- **Pending orders.** I built the Buy Stop, Buy Limit, Sell Stop, Sell Limit
+  and Buy Stop Limit order types, the market execution modal that switches
+  between them, and the trade modification modal for adjusting stop-loss and
+  take-profit on open positions. Pending orders are fetched, placed and
+  cancelled through the provider so every panel sees the same state.
+- **Account summary.** I implemented the live equity, margin, free margin and
+  margin level calculation, recomputed on every price tick from open positions
+  rather than fetched on a timer, so the account panel never lags the chart.
+- **Real-time plumbing.** I restored and hardened the Socket.IO event handling
+  for price updates and trade-closed events, so the terminal reacts to server
+  side closes such as a take-profit hit without a refresh.
+- **Chart stability.** Dragging a drawing used to rescale the price axis and
+  distort the candles. I excluded drawings from autoscale and stopped drag
+  events from reaching the chart's pan handler, which fixed it across every
+  tool.
+- **Release engineering.** I handled versioning and the Vite library build,
+  shipping the SDK as ES and UMD bundles with React as a peer dependency, and
+  kept the Prop Capitals terminal pinned to matching SDK releases.
+
+The wider package, built with the team, includes a candle engine that
+validates, deduplicates and aligns candles to timeframes, forex session
+awareness, gap detection, and a drawing toolkit covering trend lines,
+channels, Fibonacci, Gann fan, grid and line, Andrews pitchfork, regression
+and standard deviation channels, shapes and text, each with a customisation
+panel.
+
+## Result
+
+The SDK powers the live PT5 WebTrader terminal on Prop Capitals and is
+published on npm with 70 released versions, so the terminal can be upgraded
+independently of the main application.

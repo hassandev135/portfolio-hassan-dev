@@ -74,7 +74,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         {/* Scroll reveals start hidden; without JS, show everything. */}
         <noscript>
-          <style>{`[data-reveal],[data-reveal-item]{opacity:1!important}`}</style>
+          <style>{`[data-reveal],[data-reveal-item]{opacity:1!important}[data-draw]{stroke-dashoffset:0!important}`}</style>
         </noscript>
         <ThemeProvider
           attribute="class"

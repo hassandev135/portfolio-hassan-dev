@@ -1,0 +1,65 @@
+## Problem
+
+Prop Capitals sells funded-trading challenges. A trader pays for an evaluation
+account, trades it under strict rules, and receives a funded account if they
+pass. Three things have to hold up at the same time: money coming in across
+multiple regions and card acquirers, a trading engine that executes orders
+against live market prices, and a rules engine that can fail an account the
+moment it breaches drawdown. If any one of them is wrong, the firm either loses
+money or loses traders' trust.
+
+The platform is a pnpm monorepo: a Nest.js API, a React trader app, and a
+separate React admin panel, backed by PostgreSQL through Prisma. I worked
+across all three, with the payment stack and core parts of the trading engine
+as my main areas.
+
+## What I built
+
+**Payments.** Card acquiring in this market is fragile, so the platform went
+through three gateways while I owned the integration layer: WorldCard, then
+Xoala, then Paytech. I built each integration and kept the checkout flow stable
+across the swaps. That included:
+
+- Server-to-server charging with 3D Secure, plus request and webhook checksum
+  verification so a forged callback can never mark a payment as paid.
+- A provider router that lets a brand owner force a specific gateway per
+  purchase link and otherwise splits traffic between acquirers.
+- Idempotent account provisioning, so a webhook delivered twice never creates
+  two trading accounts.
+- Capture for authorised-only payments, purchase receipt emails, and currency
+  conversion with correct rounding on the amount the customer sees.
+- Public pay-link and quick-link checkout pages used in marketing campaigns.
+
+**Trading engine.** I refactored the evaluation and market-data modules and
+implemented pending-order processing, including buy-stop-limit orders.
+
+- Prices come from Binance for crypto and a forex feed over WebSocket, with a
+  stale-price guard so positions are never evaluated on old quotes.
+- A take-profit and stop-loss monitor runs every second behind a circuit
+  breaker, so a failing price feed degrades gracefully instead of cascading.
+- Trade, position and account-status events are pushed to the terminal over
+  Socket.IO rooms, scoped per account.
+- Paginated historical candle fetching lets charts load deep history without
+  tripping upstream rate limits.
+
+**Admin and operations.** I built the admin console logging interceptor,
+visit tracking for the white-label brand portal, a maintenance-mode switch,
+the migration of all challenge pricing from GBP to EUR, and the transactions
+page traders use to review their payment history.
+
+**Deployment.** The backend and trader app run on a Linux VPS under PM2,
+deployed by a GitHub Actions workflow over SSH on every push to the main
+branch, with the admin panel on Vercel. I handle server operations directly
+over SSH through Termius: PM2 process management, environment configuration,
+Postgres schema pushes and log inspection. After an obfuscated backdoor was
+found being re-injected into the Tailwind configs at install time, we added a
+malicious-code scanner that runs in CI, on the server before every build, and
+in a pre-commit hook, so a flagged payload blocks the deploy instead of
+reaching production.
+
+## Result
+
+The platform is live and processing real challenge purchases and payouts.
+Checkout survived three gateway migrations without downtime for traders, and
+the rules engine evaluates every open position against live prices rather than
+end-of-day snapshots.
